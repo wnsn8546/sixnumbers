@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>프로젝트</title>
+  <style>
+    .ball {
+      width: 10rem;
+      height: 10rem;
+      margin: .5rem;
+      
+      background-color: yellowgreen;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 10rem;
+      font-size: xx-large;
+      font-weight: bold;
+    }
+    .ball-container {
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+  <h1>로또 추천 번호</h1>
+  <label for="ball-quantit">몇 줄 을 ?</label>
+  <input id="ball-quantity">
+  <button id="lotto-btn">행운번호 추첨</button>
+  <div id="result"></div>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script>
+    const button = document.querySelector('#lotto-btn')
+    button.addEventListener('click', function() {
+      
+
+      const ballQuantity = document.querySelector('#ball-quantity')
+
+      if (ballQuantity.value.length === 0 ) {
+        ballQuantity.value = 1
+      }
+      
+      for (let i = 0; i < ballQuantity.value;i ++) {
+        const ballContainer = document.createElement('div')
+        ballContainer.classList.add('ball-container')
+        const br = document.createElement('br')
+
+        const numbers = _.sampleSize(_.range(1, 46), 6).sort((a, b)=> a - b)
+
+        for (let j = 0; j < 6; j++){
+          const ball = document.createElement('div')
+          ball.classList.add('ball')
+          ball.innerText = numbers[j]
+
+          if(numbers[j] <= 10){
+            ball.style.backgroundColor = 'yellow'
+          }else if(numbers[j] <= 20) {
+            ball.style.backgroundColor = 'blue'
+          }
+          else if(numbers[j] <= 30) {
+            ball.style.backgroundColor = 'red'
+          }
+          else if(numbers[j] <= 40) {
+            ball.style.backgroundColor = 'gray'
+          }
+          else {
+            ball.style.backgroundColor = 'green'
+          }
+          ballContainer.appendChild(ball)
+        }
+        const result = document.querySelector('#result')
+        result.appendChild(ballContainer)
+        result.appendChild(br)
+      }
+      
+    })
+  </script>
+</body>
+</html>
